@@ -1,12 +1,16 @@
+function init() {
+    var stage = new createjs.Stage("game");
 
+    var rect = new createjs.Shape();
+    rect.graphics.beginFill("#000").drawRect(10, 10, 50, 50);
+    stage.addChild(rect);
 
-Crafty.init(1280,350, document.getElementById('game'));
+    stage.on("stagemouseup", function(evt) {
+        rect.x = evt.stageX;
+        rect.y = evt.stageY;
+        stage.update();
+    });
 
-Crafty.e('Floor, 2D, Canvas, Color')
-    .attr({x: 0, y: 250, w: 1280, h: 10})
-    .color('#65A970 ');
-Crafty.e('2D, Canvas, Color, Fourway, Gravity')
-    .attr({x: 0, y: 0, w: 50, h: 50})
-    .color('#F00')
-    .fourway(4)
-    .gravity('Floor');
+    stage.update();
+}
+
