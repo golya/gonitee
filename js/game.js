@@ -1,50 +1,57 @@
-var stage, enemy, yellowEnemy;
-var unitx = 5;
-var unity = 7;
-var yunitx = 5;
-var yunity = 3;
-
+var stage;
+var enemies = [];
+var playerSize = 50;
+var enemySize = 50;
 
 function init() {
     stage = new createjs.Stage("game");
 
-    var rect = new createjs.Shape();
-    rect.graphics.beginFill("#000").drawRect(0, 0, 50, 50);
-    stage.addChild(rect);
+    createPlayer();
+    createEnemies();
 
-    stage.on("stagemouseup", function(evt) {
-        rect.x = evt.stageX;
-        rect.y = evt.stageY;
-    });
-
-    setObstructionObject();
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", handleTick);
 }
 
+function createEnemies() {
+    for (var i = 0; i < 6; i++) {
+        createEnemy(getRandomColor(), randomBetween(-8, 8), randomBetween(-8, 8));
+    }
+}
+
+function createPlayer() {
+    var rect = new createjs.Shape();
+    rect.graphics.beginFill("#000").drawRect(0, 0, playerSize, playerSize);
+    stage.addChild(rect);
+
+    stage.on("stagemouseup", function (evt) {
+        rect.x = evt.stageX;
+        rect.y = evt.stageY;
+    });
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 function handleTick(event) {
-
-
     if (!event.paused) {
 
-        if (enemy.x > 450 || enemy.x < 0 ) {
-            unitx = -unitx;
+        for (var index in enemies) {
+            if (enemies[index].x > stage.canvas.width-enemySize || enemies[index].x < 0 ) {
+                enemies[index].unitX = -enemies[index].unitX;
+            }
+            if (enemies[index].y > stage.canvas.height-enemySize || enemies[index].y < 0 ) {
+                enemies[index].unitY = -enemies[index].unitY;
+            }
+            enemies[index].x += enemies[index].unitX;
+            enemies[index].y += enemies[index].unitY;
         }
-        if (enemy.y > 450 || enemy.y < 0 ) {
-            unity = -unity;
-        }
-
-        if (yellowEnemy.x > 450 || yellowEnemy.x < 0 ) {
-            yunitx = -yunitx;
-        }
-        if (yellowEnemy.y > 450 || yellowEnemy.y < 0 ) {
-            yunity = -yunity;
-        }
-
-        enemy.x += unitx;
-        enemy.y += unity;
-        yellowEnemy.x -= yunitx;
-        yellowEnemy.y -= yunity;
     }
     stage.update(event);
 }
@@ -57,19 +64,17 @@ function randomBetween(min, max) {
     }
 }
 
-function setObstructionObject() {
-    enemy = new createjs.Shape();
-    enemy.graphics.beginFill("green").drawRect(0, 0, 50, 50);
+function createEnemy(color, unitX, unitY) {
+    unitY = unitY || 5;
+    unitX = unitX || 5;
+    color = color || "green";
+    var enemy = new createjs.Shape();
+    enemy.graphics.beginFill(color).drawRect(0, 0, enemySize, enemySize);
+    enemy.unitX = unitX;
+    enemy.unitY = unitY;
+    enemies.push(enemy);
     stage.addChild(enemy);
 
-    enemy.x = parseInt(randomBetween(50, 400));
-    enemy.y = parseInt(randomBetween(50, 400));
-
-    yellowEnemy = new createjs.Shape();
-    yellowEnemy.graphics.beginFill("yellow").drawRect(0,0, 50, 50);
-    stage.addChild(yellowEnemy);
-
-    yellowEnemy.x = parseInt(randomBetween(50, 400));
-    yellowEnemy.y = parseInt(randomBetween(50, 400));
-
+    enemy.x = parseInt(randomBetween(50, stage.canvas.width-enemySize*2));
+    enemy.y = parseInt(randomBetween(50, stage.canvas.height-enemySize*2));
 }
