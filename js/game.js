@@ -1,4 +1,4 @@
-var stage;
+var stage, player;
 var enemies = [];
 var playerSize = 50;
 var enemySize = 50;
@@ -20,13 +20,13 @@ function createEnemies() {
 }
 
 function createPlayer() {
-    var rect = new createjs.Shape();
-    rect.graphics.beginFill("#000").drawRect(0, 0, playerSize, playerSize);
-    stage.addChild(rect);
+    player = new createjs.Shape();
+    player.graphics.beginFill("#000").drawRect(0, 0, playerSize, playerSize);
+    stage.addChild(player);
 
     stage.on("stagemouseup", function (evt) {
-        rect.x = evt.stageX;
-        rect.y = evt.stageY;
+        player.x = evt.stageX;
+        player.y = evt.stageY;
     });
 }
 
@@ -39,18 +39,23 @@ function getRandomColor() {
     return color;
 }
 
-function handleTick(event) {
-    if (!event.paused) {
 
+function handleTick(event) {
+
+    function setEnemyMovement() {
+        if (enemies[index].x > stage.canvas.width - enemySize || enemies[index].x < 0) {
+            enemies[index].unitX = -enemies[index].unitX;
+        }
+        if (enemies[index].y > stage.canvas.height - enemySize || enemies[index].y < 0) {
+            enemies[index].unitY = -enemies[index].unitY;
+        }
+        enemies[index].x += enemies[index].unitX;
+        enemies[index].y += enemies[index].unitY;
+    }
+
+    if (!event.paused) {
         for (var index in enemies) {
-            if (enemies[index].x > stage.canvas.width-enemySize || enemies[index].x < 0 ) {
-                enemies[index].unitX = -enemies[index].unitX;
-            }
-            if (enemies[index].y > stage.canvas.height-enemySize || enemies[index].y < 0 ) {
-                enemies[index].unitY = -enemies[index].unitY;
-            }
-            enemies[index].x += enemies[index].unitX;
-            enemies[index].y += enemies[index].unitY;
+            setEnemyMovement();
         }
     }
     stage.update(event);
@@ -73,6 +78,7 @@ function createEnemy(color, unitX, unitY) {
     enemy.unitX = unitX;
     enemy.unitY = unitY;
     enemies.push(enemy);
+
     stage.addChild(enemy);
 
     enemy.x = parseInt(randomBetween(50, stage.canvas.width-enemySize*2));
