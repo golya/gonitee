@@ -1,7 +1,9 @@
 var stage, player;
 var enemies = [];
-var playerSize = 50;
-var enemySize = 50;
+var playerSize = 25;
+var enemySize = 25;
+var maxEnemySpeed = 8;
+var numberOfEnemies = 8;
 
 function init() {
     stage = new createjs.Stage("game");
@@ -14,20 +16,12 @@ function init() {
 }
 
 function createEnemies() {
-    for (var i = 0; i < 6; i++) {
-        createEnemy(getRandomColor(), randomBetween(-8, 8), randomBetween(-8, 8));
+    for (var i = 0; i < numberOfEnemies; i++) {
+        createEnemy(
+            getRandomColor(),
+            randomBetween(-maxEnemySpeed, maxEnemySpeed), randomBetween(-maxEnemySpeed, maxEnemySpeed)
+        );
     }
-}
-
-function createPlayer() {
-    player = new createjs.Shape();
-    player.graphics.beginFill("#000").drawRect(0, 0, playerSize, playerSize);
-    stage.addChild(player);
-
-    stage.on("stagemouseup", function (evt) {
-        player.x = evt.stageX;
-        player.y = evt.stageY;
-    });
 }
 
 function getRandomColor() {
@@ -39,14 +33,21 @@ function getRandomColor() {
     return color;
 }
 
+function checkIntersection(ball1, ball2) {
+    var xDist = ball1.x - ball2.x;
+    var yDist = ball1.y - ball2.y;
+
+    var distance = Math.sqrt(xDist * xDist + yDist * yDist);
+    return distance < enemySize + playerSize;
+}
 
 function handleTick(event) {
 
     function setEnemyMovement() {
-        if (enemies[index].x > stage.canvas.width - enemySize || enemies[index].x < 0) {
+        if (enemies[index].x > stage.canvas.width - enemySize || enemies[index].x < enemySize) {
             enemies[index].unitX = -enemies[index].unitX;
         }
-        if (enemies[index].y > stage.canvas.height - enemySize || enemies[index].y < 0) {
+        if (enemies[index].y > stage.canvas.height - enemySize || enemies[index].y < enemySize) {
             enemies[index].unitY = -enemies[index].unitY;
         }
         enemies[index].x += enemies[index].unitX;
@@ -55,11 +56,15 @@ function handleTick(event) {
 
     if (!event.paused) {
         for (var index in enemies) {
+            if (checkIntersection(enemies[index], player)) {
+                createjs.Ticker.setPaused(true);
+            }
             setEnemyMovement();
         }
     }
     stage.update(event);
 }
+
 
 function randomBetween(min, max) {
     if (min < 0) {
@@ -69,18 +74,29 @@ function randomBetween(min, max) {
     }
 }
 
+function createPlayer() {
+    player = new createjs.Shape();
+    player.graphics.beginFill("#000").drawCircle(0, 0, playerSize);
+    stage.addChild(player);
+
+    stage.on("stagemouseup", function (evt) {
+        player.x = evt.stageX;
+        player.y = evt.stageY;
+    });
+}
+
 function createEnemy(color, unitX, unitY) {
     unitY = unitY || 5;
     unitX = unitX || 5;
     color = color || "green";
     var enemy = new createjs.Shape();
-    enemy.graphics.beginFill(color).drawRect(0, 0, enemySize, enemySize);
+    enemy.graphics.beginFill(color).drawCircle(0, 0, enemySize);
     enemy.unitX = unitX;
     enemy.unitY = unitY;
     enemies.push(enemy);
 
     stage.addChild(enemy);
 
-    enemy.x = parseInt(randomBetween(50, stage.canvas.width-enemySize*2));
-    enemy.y = parseInt(randomBetween(50, stage.canvas.height-enemySize*2));
+    enemy.x = parseInt(randomBetween(50, stage.canvas.width-enemySize*3));
+    enemy.y = parseInt(randomBetween(50, stage.canvas.height-enemySize*3));
 }
