@@ -41,6 +41,11 @@ function checkIntersection(ball1, ball2) {
     return distance < enemySize + playerSize;
 }
 
+function setPlayerPosition(x, y) {
+    player.x = x;
+    player.y = y;
+}
+
 function handleTick(event) {
 
     function setEnemyMovement() {
@@ -58,6 +63,7 @@ function handleTick(event) {
         for (var index in enemies) {
             if (checkIntersection(enemies[index], player)) {
                 createjs.Ticker.setPaused(true);
+                setPlayerPosition(0, 0);
             }
             setEnemyMovement();
         }
@@ -80,8 +86,7 @@ function createPlayer() {
     stage.addChild(player);
 
     stage.on("stagemouseup", function (evt) {
-        player.x = evt.stageX;
-        player.y = evt.stageY;
+        setPlayerPosition(evt.stageX, evt.stageY);
     });
 }
 
