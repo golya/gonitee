@@ -5,7 +5,9 @@ module.exports = function(config){
 
         // files to include, ordered by dependencies
         files : [
-            'js/**/*.js',
+            'gonitee.html',
+            'js/*.js',
+            'lib/*.js',
             'tests/unit/*.js'
         ],
         // files to exclude
