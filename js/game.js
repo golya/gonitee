@@ -5,27 +5,14 @@ var enemySize = 25;
 var maxEnemySpeed = 8;
 var numberOfEnemies = 8;
 
-var img;
-var bmp;
-
 function init() {
     stage = new createjs.Stage("game");
-    img = new Image();
-    img.onload = handleImageLoad;
-    img.src = "./imgs/45.jpg";
 
     createPlayer();
     createEnemies();
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", handleTick);
-}
-
-function handleImageLoad() {
-    bmp = new createjs.Bitmap(img).set();
-    bmp.filters = [new createjs.BlurFilter(100,100,10)];
-    bmp.cache(0, 0, img.width, img.height);
-    stage.addChild(bmp);
 }
 
 function createEnemies() {
@@ -81,9 +68,6 @@ function handleTick(event) {
             setEnemyMovement();
         }
     }
-
-    bmp.updateCache();
-    bmp.filters = [new createjs.BlurFilter(60, 60, 2)];
 
     stage.update(event);
 }
