@@ -23,12 +23,23 @@ header {
     margin-left: auto;
     margin-right: auto;
     display: block;
-    width: 1000px;
+    width: 800px;
     height: 500px;
     background-color: aliceblue;
 
 }
 
+#play {
+    cursor: pointer;
+    background-color: #489ad0;
+    color: #ffffff;
+    width: 57px;
+    height: 30px;
+    padding: 10px;
+    font-size: 25px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 footer {
     background-color: dimgray;
@@ -42,3 +53,4 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
