@@ -3,6 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" href="css/main.css"/>
+    <link type="text/css" rel="stylesheet" href="css/abilities.css"/>
     <script src="https://code.createjs.com/easeljs-0.8.0.min.js"></script>
     <title>Gonitee</title>
 </head>
@@ -11,7 +12,17 @@
 
 <section>
     <div id="play" onclick="init()">PLAY</div>
-    <canvas id="game" width="800" height="500"></canvas>
+    <div id="game-container">
+        <div class="game-module">
+            <div id="q"><p>Q</p></div>
+        </div>
+        <div class="game-module">
+            <canvas id="game" width="800" height="500"></canvas>
+        </div>
+        <div class="game-module">
+            <div id="w"><p>W</p></div>
+        </div>
+    </div>
 </section>
 
 <script src="js/game.js"></script>
