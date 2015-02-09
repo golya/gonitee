@@ -5,15 +5,33 @@ var enemySize = 25;
 var maxEnemySpeed = 8;
 var numberOfEnemies = 8;
 
+var abilityQ = false;
+var effectTimeQ = 3000;
+
 function init() {
     stage = new createjs.Stage("game");
 
     createPlayer();
     createEnemies();
 
+    this.document.onkeydown = keyPressed;
+
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", handleTick);
 }
+
+function keyPressed(event) {
+    switch(event.keyCode) {
+        case 81:
+            abilityQ = true;
+            setTimeout(function removeAbility() {
+                abilityQ = false;
+            }, effectTimeQ);
+            break;
+    }
+    stage.update();
+}
+
 
 function createEnemies() {
     for (var i = 0; i < numberOfEnemies; i++) {
@@ -34,11 +52,15 @@ function getRandomColor() {
 }
 
 function checkIntersection(ball1, ball2) {
+    return checkIntersectionWithSize(ball1, ball2, playerSize);
+}
+
+function checkIntersectionWithSize(ball1, ball2, size) {
     var xDist = ball1.x - ball2.x;
     var yDist = ball1.y - ball2.y;
 
     var distance = Math.sqrt(xDist * xDist + yDist * yDist);
-    return distance < enemySize + playerSize;
+    return distance < enemySize + size;
 }
 
 function setPlayerPosition(x, y) {
@@ -48,30 +70,42 @@ function setPlayerPosition(x, y) {
 
 function handleTick(event) {
 
-    function setEnemyMovement() {
-        if (enemies[index].x > stage.canvas.width - enemySize || enemies[index].x < enemySize) {
-            enemies[index].unitX = -enemies[index].unitX;
+    function checkAbilityQ(enemy) {
+        if (abilityQ) {
+            if (checkIntersectionWithSize(enemies[index], player, playerSize * 3)) {
+                enemy.unitX = -enemy.unitX;
+                enemy.unitY = -enemy.unitY;
+            }
         }
-        if (enemies[index].y > stage.canvas.height - enemySize || enemies[index].y < enemySize) {
-            enemies[index].unitY = -enemies[index].unitY;
+    }
+
+    function checkBasicMovement(enemy) {
+        if (enemy.x > stage.canvas.width - enemySize || enemy.x < enemySize) {
+            enemy.unitX = -enemy.unitX;
         }
-        enemies[index].x += enemies[index].unitX;
-        enemies[index].y += enemies[index].unitY;
+        if (enemy.y > stage.canvas.height - enemySize || enemy.y < enemySize) {
+            enemy.unitY = -enemy.unitY;
+        }
+        enemy.x += enemy.unitX;
+        enemy.y += enemy.unitY;
+    }
+
+    function setEnemyMovement(enemy) {
+        checkAbilityQ(enemy);
+        checkBasicMovement(enemy);
     }
 
     if (!event.paused) {
         for (var index in enemies) {
             if (checkIntersection(enemies[index], player)) {
                 createjs.Ticker.setPaused(true);
-                setPlayerPosition(0, 0);
             }
-            setEnemyMovement();
+            setEnemyMovement(enemies[index]);
         }
     }
 
     stage.update(event);
 }
-
 
 function randomBetween(min, max) {
     if (min < 0) {
