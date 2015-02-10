@@ -1,6 +1,7 @@
-var stage, player;
+var stage, player, goal;
 var enemies = [];
 var playerSize = 25;
+var goalSize = 15;
 var enemySize = 25;
 var maxEnemySpeed = 8;
 var numberOfEnemies = 8;
@@ -8,9 +9,12 @@ var numberOfEnemies = 8;
 var abilityQ = false;
 var effectTimeQ = 3000;
 
+var catchNumber = 0;
+
 function init() {
     stage = new createjs.Stage("game");
 
+    createGoal();
     createPlayer();
     createEnemies();
 
@@ -79,20 +83,29 @@ function handleTick(event) {
         }
     }
 
-    function checkBasicMovement(enemy) {
-        if (enemy.x > stage.canvas.width - enemySize || enemy.x < enemySize) {
-            enemy.unitX = -enemy.unitX;
+    function setBasicMovement(target, size) {
+        if (target.x > stage.canvas.width - size || target.x < size) {
+            target.unitX = -target.unitX;
         }
-        if (enemy.y > stage.canvas.height - enemySize || enemy.y < enemySize) {
-            enemy.unitY = -enemy.unitY;
+        if (target.y > stage.canvas.height - size || target.y < size) {
+            target.unitY = -target.unitY;
         }
-        enemy.x += enemy.unitX;
-        enemy.y += enemy.unitY;
+        target.x += target.unitX;
+        target.y += target.unitY;
+    }
+
+    function checkGoal() {
+        if (checkIntersection(goal, player)) {
+            var catchNumberElement = document.getElementById('catch-number');
+            catchNumber += 1;
+            catchNumberElement.innerHTML = catchNumber.toString();
+            setGoalPosition();
+        }
     }
 
     function setEnemyMovement(enemy) {
         checkAbilityQ(enemy);
-        checkBasicMovement(enemy);
+        setBasicMovement(enemy, enemySize);
     }
 
     if (!event.paused) {
@@ -101,6 +114,7 @@ function handleTick(event) {
                 createjs.Ticker.setPaused(true);
             }
             setEnemyMovement(enemies[index]);
+            checkGoal();
         }
     }
 
@@ -124,6 +138,20 @@ function createPlayer() {
         setPlayerPosition(evt.stageX, evt.stageY);
     });
 }
+
+function setGoalPosition() {
+    goal.x = parseInt(randomBetween(50, stage.canvas.width - goalSize * 3));
+    goal.y = parseInt(randomBetween(50, stage.canvas.height - goalSize * 3));
+}
+
+function createGoal() {
+    goal = new createjs.Shape();
+    goal.graphics.beginFill("#3a5b00").drawCircle(0, 0, goalSize);
+    stage.addChild(goal);
+
+    setGoalPosition();
+}
+
 
 function createEnemy(color, unitX, unitY) {
     unitY = unitY || 5;
