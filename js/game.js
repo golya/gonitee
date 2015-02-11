@@ -9,6 +9,9 @@ var numberOfEnemies = 8;
 var abilityQ = false;
 var effectTimeQ = 3000;
 
+var abilityW = false;
+var effectTimeW = 3000;
+
 var catchNumber = 0;
 
 function init() {
@@ -31,6 +34,13 @@ function keyPressed(event) {
             setTimeout(function removeAbility() {
                 abilityQ = false;
             }, effectTimeQ);
+            break;
+        case 87:
+            abilityW = true;
+            setTimeout(function removeAbility() {
+                abilityW = false;
+                resetAbilityW(enemies);
+            }, effectTimeW);
             break;
     }
     stage.update();
@@ -96,6 +106,7 @@ function handleTick(event) {
 
     function setEnemyMovement(enemy) {
         checkAbilityQ(enemy);
+        checkAbilityW(enemy);
         setBasicMovement(enemy, enemySize);
     }
 
@@ -107,6 +118,7 @@ function handleTick(event) {
             setEnemyMovement(enemies[index]);
             checkGoal();
         }
+        abilityW = false;
     }
 
     stage.update(event);
@@ -143,7 +155,6 @@ function createGoal() {
     setGoalPosition();
 }
 
-
 function createEnemy(color, unitX, unitY) {
     unitY = unitY || 5;
     unitX = unitX || 5;
@@ -152,6 +163,8 @@ function createEnemy(color, unitX, unitY) {
     enemy.graphics.beginFill(color).drawCircle(0, 0, enemySize);
     enemy.unitX = unitX;
     enemy.unitY = unitY;
+    enemy.OrigUnitX = unitX;
+    enemy.OrigUnitY = unitY;
     enemies.push(enemy);
 
     stage.addChild(enemy);
