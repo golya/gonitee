@@ -74,15 +74,6 @@ function setPlayerPosition(x, y) {
 
 function handleTick(event) {
 
-    function checkAbilityQ(enemy) {
-        if (abilityQ) {
-            if (checkIntersectionWithSize(enemies[index], player, playerSize * 3)) {
-                enemy.unitX = -enemy.unitX;
-                enemy.unitY = -enemy.unitY;
-            }
-        }
-    }
-
     function setBasicMovement(target, size) {
         if (target.x > stage.canvas.width - size || target.x < size) {
             target.unitX = -target.unitX;
