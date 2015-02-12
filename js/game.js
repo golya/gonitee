@@ -5,6 +5,7 @@ var goalSize = 15;
 var enemySize = 25;
 var maxEnemySpeed = 8;
 var numberOfEnemies = 8;
+var catchNumber = 0;
 
 var abilityQ = false;
 var effectTimeQ = 3000;
@@ -12,10 +13,12 @@ var effectTimeQ = 3000;
 var abilityW = false;
 var effectTimeW = 3000;
 
-var catchNumber = 0;
+
 
 function init() {
     stage = new createjs.Stage("game");
+
+    resetGame();
 
     createGoal();
     createPlayer();
@@ -25,6 +28,18 @@ function init() {
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", handleTick);
+}
+
+function resetGame() {
+    enemies = [];
+    playerSize = 25;
+    goalSize = 15;
+    enemySize = 25;
+    maxEnemySpeed = 8;
+    numberOfEnemies = 8;
+    catchNumber = 0;
+    setCatchNumber(catchNumber);
+    createjs.Ticker.setPaused(false);
 }
 
 function keyPressed(event) {
@@ -82,6 +97,11 @@ function setPlayerPosition(x, y) {
     player.y = y;
 }
 
+function setCatchNumber(value) {
+    var catchNumberElement = document.getElementById('catch-number');
+    catchNumberElement.innerHTML = value.toString();
+}
+
 function handleTick(event) {
 
     function setBasicMovement(target, size) {
@@ -97,9 +117,8 @@ function handleTick(event) {
 
     function checkGoal() {
         if (checkIntersection(goal, player)) {
-            var catchNumberElement = document.getElementById('catch-number');
             catchNumber += 1;
-            catchNumberElement.innerHTML = catchNumber.toString();
+            setCatchNumber(catchNumber);
             setGoalPosition();
         }
     }
