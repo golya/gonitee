@@ -1,24 +1,31 @@
 var stage, player, goal;
-var enemies = [];
-var playerSize = 25;
-var goalSize = 15;
-var enemySize = 25;
-var maxEnemySpeed = 8;
-var numberOfEnemies = 8;
-var catchNumber = 0;
+var enemies;
+var playerSize;
+var goalSize;
+var enemySize;
+var maxEnemySpeed;
+var numberOfEnemies;
+var catchNumber;
 
-var abilityQ = false;
-var effectTimeQ = 3000;
+var abilityQ = new Ability(3000, 8000);
+var abilityW = new Ability(3000, 5000);
 
-var abilityW = false;
-var effectTimeW = 3000;
-
-
+function initGameState() {
+    enemies = [];
+    playerSize = 25;
+    goalSize = 15;
+    enemySize = 25;
+    maxEnemySpeed = 8;
+    numberOfEnemies = 4;
+    catchNumber = 0;
+    setCatchNumber(catchNumber);
+    createjs.Ticker.setPaused(false);
+}
 
 function init() {
     stage = new createjs.Stage("game");
 
-    resetGame();
+    initGameState();
 
     createGoal();
     createPlayer();
@@ -30,32 +37,20 @@ function init() {
     createjs.Ticker.addEventListener("tick", handleTick);
 }
 
-function resetGame() {
-    enemies = [];
-    playerSize = 25;
-    goalSize = 15;
-    enemySize = 25;
-    maxEnemySpeed = 8;
-    numberOfEnemies = 8;
-    catchNumber = 0;
-    setCatchNumber(catchNumber);
-    createjs.Ticker.setPaused(false);
-}
-
 function keyPressed(event) {
     switch(event.keyCode) {
         case 81:
-            abilityQ = true;
+            abilityQ.active = true;
             setTimeout(function removeAbility() {
-                abilityQ = false;
-            }, effectTimeQ);
+                abilityQ.active = false;
+            }, abilityQ.effectTime);
             break;
         case 87:
-            abilityW = true;
+            abilityW.active = true;
             setTimeout(function removeAbility() {
-                abilityW = false;
+                abilityW.active = false;
                 resetAbilityW(enemies);
-            }, effectTimeW);
+            }, abilityW.effectTime);
             break;
     }
     stage.update();
@@ -137,7 +132,7 @@ function handleTick(event) {
             setEnemyMovement(enemies[index]);
             checkGoal();
         }
-        abilityW = false;
+        abilityW.active = false;
     }
 
     stage.update(event);

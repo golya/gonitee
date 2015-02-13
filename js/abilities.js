@@ -1,6 +1,12 @@
 
+var Ability = function Ability (effectTime, cooldown) {
+    this.active = false;
+    this.effectTime = effectTime;
+    this.cooldown = cooldown;
+};
+
 function checkAbilityQ(enemy) {
-    if (abilityQ) {
+    if (abilityQ.active) {
         if (checkIntersectionWithSize(enemy, player, playerSize * 3)) {
             enemy.unitX = -enemy.unitX;
             enemy.unitY = -enemy.unitY;
@@ -9,7 +15,7 @@ function checkAbilityQ(enemy) {
 }
 
 function checkAbilityW(enemy) {
-    if (abilityW) {
+    if (abilityW.active) {
         enemy.unitX = enemy.unitX/3;
         enemy.unitY = enemy.unitY/3;
     }
