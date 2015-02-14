@@ -7,8 +7,9 @@ var maxEnemySpeed;
 var numberOfEnemies;
 var catchNumber;
 
-var abilityQ = new Ability(3000, 8000);
+var abilityQ = new Ability(5000, 8000);
 var abilityW = new Ability(3000, 5000);
+var abilityE = new Ability(2000, 15000);
 
 function initGameState() {
     enemies = [];
@@ -51,6 +52,13 @@ function keyPressed(event) {
                 abilityW.active = false;
                 resetAbilityW(enemies);
             }, abilityW.effectTime);
+            break;
+        case 69:
+            abilityE.active = true;
+            setTimeout(function removeAbility() {
+                abilityE.active = false;
+                resetAbilityW(enemies);
+            }, abilityE.effectTime);
             break;
     }
     stage.update();
@@ -121,6 +129,7 @@ function handleTick(event) {
     function setEnemyMovement(enemy) {
         checkAbilityQ(enemy);
         checkAbilityW(enemy);
+        checkAbilityE(enemy);
         setBasicMovement(enemy, enemySize);
     }
 

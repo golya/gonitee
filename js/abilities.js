@@ -21,6 +21,13 @@ function checkAbilityW(enemy) {
     }
 }
 
+function checkAbilityE(enemy) {
+    if (abilityE.active) {
+        enemy.unitX = 0;
+        enemy.unitY = 0;
+    }
+}
+
 function resetAbilityW(enemies) {
     function setOriginalSpeed(enemy) {
         var signX = enemy.unitX > 0 ? 1 : -1;
