@@ -7,17 +7,40 @@ var maxEnemySpeed;
 var numberOfEnemies;
 var catchNumber;
 
+var levelState;
+var levelTimeout;
+var levelTime;
+var level = 1;
+var levelGoal = 10;
+
 var abilityQ = new Ability(5000, 8000);
 var abilityW = new Ability(3000, 5000);
 var abilityE = new Ability(2000, 15000);
 
 function initGameState() {
+    var timerP = document.getElementById('timer');
+    var levelP = document.getElementById('level');
+
+    if (levelTimeout) {
+        clearInterval(levelTimeout);
+    }
+
+    levelTime = Math.floor(7 + Math.pow(level, 2)/100);
+    timerP.innerHTML = levelTime.toString();
+    levelP.innerHTML = level.toString();
+
+    levelTimeout = setInterval(function() {
+        timerP.innerHTML = levelTime.toString();
+        levelTime--;
+    }, 1000);
+
+    levelState = 'started';
     enemies = [];
     playerSize = 25;
     goalSize = 15;
     enemySize = 25;
-    maxEnemySpeed = 8;
-    numberOfEnemies = 4;
+    maxEnemySpeed = 4 + level/4;
+    numberOfEnemies = 1 + level/2;
     catchNumber = 0;
     setCatchNumber(catchNumber);
     createjs.Ticker.setPaused(false);
@@ -64,7 +87,6 @@ function keyPressed(event) {
     stage.update();
 }
 
-
 function createEnemies() {
     for (var i = 0; i < numberOfEnemies; i++) {
         createEnemy(
@@ -105,43 +127,58 @@ function setCatchNumber(value) {
     catchNumberElement.innerHTML = value.toString();
 }
 
+function setBasicMovement(target, size) {
+    if (target.x > stage.canvas.width - size || target.x < size) {
+        target.unitX = -target.unitX;
+    }
+    if (target.y > stage.canvas.height - size || target.y < size) {
+        target.unitY = -target.unitY;
+    }
+    target.x += target.unitX;
+    target.y += target.unitY;
+}
+
+function checkGoal() {
+    if (checkIntersection(goal, player)) {
+        catchNumber += 1;
+        setCatchNumber(catchNumber);
+        setGoalPosition();
+    }
+}
+
+function setEnemyMovement(enemy) {
+    checkAbilityQ(enemy);
+    checkAbilityW(enemy);
+    checkAbilityE(enemy);
+    setBasicMovement(enemy, enemySize);
+}
+
+function checkEnemies() {
+    for (var index in enemies) {
+        if (checkIntersection(enemies[index], player)) {
+            createjs.Ticker.setPaused(true);
+            levelState = 'paused';
+        }
+        setEnemyMovement(enemies[index]);
+        checkGoal();
+    }
+}
+
 function handleTick(event) {
-
-    function setBasicMovement(target, size) {
-        if (target.x > stage.canvas.width - size || target.x < size) {
-            target.unitX = -target.unitX;
-        }
-        if (target.y > stage.canvas.height - size || target.y < size) {
-            target.unitY = -target.unitY;
-        }
-        target.x += target.unitX;
-        target.y += target.unitY;
-    }
-
-    function checkGoal() {
-        if (checkIntersection(goal, player)) {
-            catchNumber += 1;
-            setCatchNumber(catchNumber);
-            setGoalPosition();
-        }
-    }
-
-    function setEnemyMovement(enemy) {
-        checkAbilityQ(enemy);
-        checkAbilityW(enemy);
-        checkAbilityE(enemy);
-        setBasicMovement(enemy, enemySize);
-    }
-
     if (!event.paused) {
-        for (var index in enemies) {
-            if (checkIntersection(enemies[index], player)) {
-                createjs.Ticker.setPaused(true);
-            }
-            setEnemyMovement(enemies[index]);
-            checkGoal();
-        }
+        checkEnemies();
         abilityW.active = false;
+
+        if (levelState === 'paused' || levelTime < 0 ) {
+            clearInterval(levelTimeout);
+            init();
+        }
+        if (catchNumber >= levelGoal) {
+            clearInterval(levelTimeout);
+            createjs.Ticker.setPaused(true);
+            level ++;
+            init();
+        }
     }
 
     stage.update(event);
