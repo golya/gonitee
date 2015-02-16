@@ -17,7 +17,7 @@ var abilityQ = new Ability(5000, 8000);
 var abilityW = new Ability(3000, 5000);
 var abilityE = new Ability(2000, 15000);
 
-function initGameState() {
+function initHeader() {
     var timerP = document.getElementById('timer');
     var levelP = document.getElementById('level');
 
@@ -25,15 +25,18 @@ function initGameState() {
         clearInterval(levelTimeout);
     }
 
-    levelTime = Math.floor(7 + Math.pow(level, 2)/100);
+    levelTime = Math.floor(7 + Math.pow(level, 2) / 100);
     timerP.innerHTML = levelTime.toString();
     levelP.innerHTML = level.toString();
 
-    levelTimeout = setInterval(function() {
+    levelTimeout = setInterval(function () {
         timerP.innerHTML = levelTime.toString();
         levelTime--;
     }, 1000);
+}
 
+function initGameState() {
+    initHeader();
     levelState = 'started';
     enemies = [];
     playerSize = 25;
