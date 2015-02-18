@@ -5,7 +5,7 @@
     display: inline-block;
 }
 
-#q, #w, #e {
+#q, #w, #e, #r {
     background-color: #afec26;
     border-radius: 50%;
     color: #ffffff;
@@ -14,7 +14,7 @@
     height: 30px;
 }
 
-#q p, #w p, #e p {
+#q p, #w p, #e p, #r p {
     position: relative;
     top: 7px;
 }
