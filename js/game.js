@@ -16,6 +16,7 @@ var levelGoal = 10;
 var abilityQ = new Ability(5000, 8000);
 var abilityW = new Ability(3000, 5000);
 var abilityE = new Ability(2000, 15000);
+var abilityR = new Ability(2000, 95000);
 
 function initHeader() {
     var timerP = document.getElementById('timer');
@@ -86,6 +87,12 @@ function keyPressed(event) {
                 resetAbilityW(enemies);
             }, abilityE.effectTime);
             break;
+        case 82:
+            abilityR.active = true;
+            setTimeout(function removeAbility() {
+                abilityR.active = false;
+            }, abilityR.effectTime);
+            break;
     }
     stage.update();
 }
@@ -153,6 +160,7 @@ function setEnemyMovement(enemy) {
     checkAbilityQ(enemy);
     checkAbilityW(enemy);
     checkAbilityE(enemy);
+    checkAbilityR(enemy);
     setBasicMovement(enemy, enemySize);
 }
 
