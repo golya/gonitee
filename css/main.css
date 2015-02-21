@@ -28,8 +28,6 @@ header {
 #game-container {
     width: 1000px;
     height: 500px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #game {
@@ -60,25 +58,6 @@ header {
     display: inline-block;
 }
 
-#header {
-    padding: 0px;
-    width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-footer {
-    background-color: dimgray;
-    height: 20px;
-    text-align: center;
-    font-size: 18px;
-    color: darkgrey;
-    margin-top: 40px;
-    padding: 5px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
 
 #catch {
     background-color: #3a5b00;
