@@ -18,6 +18,32 @@ var abilityW = new Ability(3000, 5000);
 var abilityE = new Ability(2000, 15000);
 var abilityR = new Ability(2000, 95000);
 
+window.onresize = function() {
+    var canvas = document.getElementById("game");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    createMap();
+};
+
+function init() {
+    stage = new createjs.Stage("game");
+    stage.canvas.width = window.innerWidth;
+    stage.canvas.height = window.innerHeight;
+
+    initGameState();
+
+    createMap();
+
+    createGoal();
+    createPlayer();
+    createEnemies();
+
+    this.document.onkeydown = keyPressed;
+
+    createjs.Ticker.timingMode = createjs.Ticker.RAF;
+    createjs.Ticker.addEventListener("tick", handleTick);
+}
+
 function initHeader() {
     var timerP = document.getElementById('timer');
     var levelP = document.getElementById('level');
@@ -37,32 +63,17 @@ function initHeader() {
 }
 
 function initGameState() {
-    initHeader();
+    //initHeader();
     levelState = 'started';
     enemies = [];
-    playerSize = 25;
-    goalSize = 15;
-    enemySize = 25;
-    maxEnemySpeed = 4 + level/4;
+    playerSize = Math.round(window.innerWidth*0.035);
+    goalSize = Math.round(window.innerWidth*0.025);;
+    enemySize = Math.round(window.innerWidth*0.035);;
+    maxEnemySpeed = Math.round(window.innerWidth/200); + level/4;
     numberOfEnemies = 1 + level/2;
     catchNumber = 0;
     setCatchNumber(catchNumber);
     createjs.Ticker.setPaused(false);
-}
-
-function init() {
-    stage = new createjs.Stage("game");
-
-    initGameState();
-
-    createGoal();
-    createPlayer();
-    createEnemies();
-
-    this.document.onkeydown = keyPressed;
-
-    createjs.Ticker.timingMode = createjs.Ticker.RAF;
-    createjs.Ticker.addEventListener("tick", handleTick);
 }
 
 function keyPressed(event) {
@@ -133,15 +144,29 @@ function setPlayerPosition(x, y) {
 }
 
 function setCatchNumber(value) {
-    var catchNumberElement = document.getElementById('catch-number');
-    catchNumberElement.innerHTML = value.toString();
+    /*var catchNumberElement = document.getElementById('catch-number');
+    catchNumberElement.innerHTML = value.toString();*/
+}
+
+function checkWallCollisionX(target, size) {
+    if ((target.x - size <= 20) || (target.x + size >= window.innerWidth-20)) {
+        return true;
+    }
+    return false;
+}
+
+function checkWallCollisionY(target, size) {
+    if ((target.y - size <= playerSize+10) || (target.y + size >= window.innerHeight-playerSize-10)) {
+        return true;
+    }
+    return false;
 }
 
 function setBasicMovement(target, size) {
-    if (target.x > stage.canvas.width - size || target.x < size) {
+    if (target.x > stage.canvas.width - size || target.x < size || checkWallCollisionX(target, size)) {
         target.unitX = -target.unitX;
     }
-    if (target.y > stage.canvas.height - size || target.y < size) {
+    if (target.y > stage.canvas.height - size || target.y < size || checkWallCollisionY(target, size)) {
         target.unitY = -target.unitY;
     }
     target.x += target.unitX;
@@ -214,8 +239,8 @@ function createPlayer() {
 }
 
 function setGoalPosition() {
-    goal.x = parseInt(randomBetween(50, stage.canvas.width - goalSize * 3));
-    goal.y = parseInt(randomBetween(50, stage.canvas.height - goalSize * 3));
+    goal.x = Math.round(randomBetween(50, stage.canvas.width - goalSize * 5));
+    goal.y = Math.round(randomBetween(50, stage.canvas.height - goalSize * 5));
 }
 
 function createGoal() {
@@ -240,6 +265,6 @@ function createEnemy(color, unitX, unitY) {
 
     stage.addChild(enemy);
 
-    enemy.x = parseInt(randomBetween(50, stage.canvas.width-enemySize*3));
-    enemy.y = parseInt(randomBetween(50, stage.canvas.height-enemySize*3));
+    enemy.x = Math.round(stage.canvas.width/2);
+    enemy.y = Math.round(stage.canvas.height/2);
 }

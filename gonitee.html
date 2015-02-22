@@ -7,29 +7,12 @@
     <script src="lib/createjs-2014.12.12.min.js"></script>
     <title>Gonitee</title>
 </head>
-<body>
+<body onload="init()">
 <section>
-    <div id="header">
-        <div id="play" onclick="init()">PLAY</div>
-        <div><p class="header-label">time:</p><p id="timer">7</p></div>
-        <div><p class="header-label">level:</p><p id="level">1</p></div>
-    </div>
-    <div id="game-container">
-        <div class="game-module">
-            <div id="q"><p>Q</p></div>
-            <div id="e"><p>E</p></div>
-        </div>
-        <div class="game-module">
-            <canvas id="game" width="800" height="500"></canvas>
-        </div>
-        <div class="game-module">
-            <div id="w"><p>W</p></div>
-            <div id="r"><p>R</p></div>
-            <div id="catch"><p id="catch-number">0</p></div>
-        </div>
-    </div>
+    <canvas id="game"></canvas>
 </section>
 
+<script src="js/map.js"></script>
 <script src="js/abilities.js"></script>
 <script src="js/game.js"></script>
 
