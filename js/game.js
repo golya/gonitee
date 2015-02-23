@@ -6,6 +6,7 @@ var enemySize;
 var maxEnemySpeed;
 var numberOfEnemies;
 var catchNumber;
+var catchText;
 
 var levelState;
 var levelTimeout;
@@ -72,10 +73,12 @@ function initGameState() {
     maxEnemySpeed = Math.round(window.innerWidth/200); + level/4;
     numberOfEnemies = 1 + level/2;
     catchNumber = 0;
+
+    createCatchText();
     setCatchNumber(catchNumber);
+
     createjs.Ticker.setPaused(false);
 }
-
 function keyPressed(event) {
     switch(event.keyCode) {
         case 81:
@@ -144,8 +147,7 @@ function setPlayerPosition(x, y) {
 }
 
 function setCatchNumber(value) {
-    /*var catchNumberElement = document.getElementById('catch-number');
-    catchNumberElement.innerHTML = value.toString();*/
+    catchText.text = value;
 }
 
 function checkWallCollisionX(target, size) {
@@ -226,6 +228,14 @@ function randomBetween(min, max) {
     }else {
         return min + Math.random() * max;
     }
+}
+
+function createCatchText() {
+    catchText = new createjs.Text("Hello World", "50px Arial", "#AFEC26");
+    catchText.x = 100;
+    catchText.y = 100;
+    catchText.textBaseline = "alphabetic";
+    stage.addChild(catchText);
 }
 
 function createPlayer() {
