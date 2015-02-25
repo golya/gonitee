@@ -8,6 +8,7 @@ var numberOfEnemies;
 var catchNumber;
 var catchText;
 var timerText;
+var levelText;
 
 var levelState;
 var levelTimeout;
@@ -48,7 +49,7 @@ function init() {
 
 function initHeader() {
     createTimerText();
-    /*var levelP = document.getElementById('level');*/
+    createLevelText();
 
     if (levelTimeout) {
         clearInterval(levelTimeout);
@@ -56,7 +57,7 @@ function initHeader() {
 
     levelTime = Math.floor(8 + Math.pow(level, 2) / 100);
     timerText.text = levelTime.toString();
-    //levelP.innerHTML = level.toString();
+    levelText.text = level.toString();
 
     levelTimeout = setInterval(function () {
         timerText.text = levelTime.toString();
@@ -232,8 +233,8 @@ function randomBetween(min, max) {
 }
 
 function createCatchText() {
-    catchText = new createjs.Text("0", "50px Arial", "#AFEC26");
-    catchText.x = 100;
+    catchText = new createjs.Text("0", "50px Arial", "#000C26");
+    catchText.x = 50;
     catchText.y = 100;
     catchText.textBaseline = "alphabetic";
     stage.addChild(catchText);
@@ -241,10 +242,18 @@ function createCatchText() {
 
 function createTimerText() {
     timerText = new createjs.Text("", "50px Arial", "#AFEC26");
-    timerText.x = 200;
+    timerText.x = 150;
     timerText.y = 100;
     timerText.textBaseline = "alphabetic";
     stage.addChild(timerText);
+}
+
+function createLevelText() {
+    levelText = new createjs.Text("", "50px Arial", "#AFE000");
+    levelText.x = 50;
+    levelText.y = 200;
+    levelText.textBaseline = "alphabetic";
+    stage.addChild(levelText);
 }
 
 function createPlayer() {
