@@ -13,10 +13,10 @@ function createMap() {
     leftWall = new createjs.Shape();
     bottomWall = new createjs.Shape();
     rightWall = new createjs.Shape();
-    topWall.graphics.beginFill("#000000").drawRect(20, playerSize, window.innerWidth-40, 10);
-    leftWall.graphics.beginFill("#000000").drawRect(10, playerSize, 10, window.innerHeight-playerSize*2);
-    bottomWall.graphics.beginFill("#000000").drawRect(10, window.innerHeight-playerSize-10, window.innerWidth-20, 10);
-    rightWall.graphics.beginFill("#000000").drawRect(window.innerWidth-20, playerSize, 10, window.innerHeight-playerSize*2);
+    topWall.graphics.beginFill("#000000").drawRect(50, 0, window.innerWidth, 10);
+    leftWall.graphics.beginFill("#000000").drawRect(50, 0, 10, window.innerHeight);
+    bottomWall.graphics.beginFill("#000000").drawRect(50, window.innerHeight-10, window.innerWidth, 10);
+    rightWall.graphics.beginFill("#000000").drawRect(window.innerWidth-10, 0, 10, window.innerHeight);
 
     stage.addChild(topWall);
     stage.addChild(leftWall);

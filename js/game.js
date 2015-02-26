@@ -153,14 +153,14 @@ function setCatchNumber(value) {
 }
 
 function checkWallCollisionX(target, size) {
-    if ((target.x - size <= 20) || (target.x + size >= window.innerWidth-20)) {
+    if ((target.x - size <= 60) || (target.x + size >= window.innerWidth-10)) {
         return true;
     }
     return false;
 }
 
 function checkWallCollisionY(target, size) {
-    if ((target.y - size <= playerSize+10) || (target.y + size >= window.innerHeight-playerSize-10)) {
+    if ((target.y - size <= 10) || (target.y + size >= window.innerHeight-10)) {
         return true;
     }
     return false;
@@ -234,7 +234,7 @@ function randomBetween(min, max) {
 
 function createCatchText() {
     catchText = new createjs.Text("0", "50px Arial", "#000C26");
-    catchText.x = 50;
+    catchText.x = 70;
     catchText.y = 100;
     catchText.textBaseline = "alphabetic";
     stage.addChild(catchText);
@@ -250,7 +250,7 @@ function createTimerText() {
 
 function createLevelText() {
     levelText = new createjs.Text("", "50px Arial", "#AFE000");
-    levelText.x = 50;
+    levelText.x = 70;
     levelText.y = 200;
     levelText.textBaseline = "alphabetic";
     stage.addChild(levelText);
