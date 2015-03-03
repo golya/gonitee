@@ -1,3 +1,13 @@
+
+function createEnemies() {
+    for (var i = 0; i < numberOfEnemies; i++) {
+        createEnemy(
+            getRandomColor(),
+            randomBetween(-maxEnemySpeed, maxEnemySpeed), randomBetween(-maxEnemySpeed, maxEnemySpeed)
+        );
+    }
+}
+
 function createCatchText() {
     catchText = new createjs.Text("0", "50px Arial", "#000C26");
     catchText.x = 70;
