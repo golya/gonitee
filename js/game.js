@@ -47,7 +47,7 @@ function init() {
     createjs.Ticker.addEventListener("tick", handleTick);
 }
 
-function initHeader() {
+function initScreen() {
     createTimerText();
     createLevelText();
 
@@ -66,7 +66,7 @@ function initHeader() {
 }
 
 function initGameState() {
-    initHeader();
+    initScreen();
     levelState = 'started';
     enemies = [];
     playerSize = Math.round(window.innerWidth*0.035);
@@ -82,25 +82,24 @@ function initGameState() {
     createjs.Ticker.setPaused(false);
 }
 
-function getRandomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
+function handleTick(event) {
+    if (!event.paused) {
+        checkEnemies();
+        abilityW.active = false;
+
+        if (levelState === 'paused' || levelTime < 0 ) {
+            clearInterval(levelTimeout);
+            init();
+        }
+        if (catchNumber >= levelGoal) {
+            clearInterval(levelTimeout);
+            createjs.Ticker.setPaused(true);
+            level ++;
+            init();
+        }
     }
-    return color;
-}
 
-function checkIntersection(ball1, ball2) {
-    return checkIntersectionWithSize(ball1, ball2, playerSize);
-}
-
-function checkIntersectionWithSize(ball1, ball2, size) {
-    var xDist = ball1.x - ball2.x;
-    var yDist = ball1.y - ball2.y;
-
-    var distance = Math.sqrt(xDist * xDist + yDist * yDist);
-    return distance < enemySize + size;
+    stage.update(event);
 }
 
 function setPlayerPosition(x, y) {
@@ -110,20 +109,6 @@ function setPlayerPosition(x, y) {
 
 function setCatchNumber(value) {
     catchText.text = value;
-}
-
-function checkWallCollisionX(target, size) {
-    if ((target.x - size <= 60) || (target.x + size >= window.innerWidth-10)) {
-        return true;
-    }
-    return false;
-}
-
-function checkWallCollisionY(target, size) {
-    if ((target.y - size <= 10) || (target.y + size >= window.innerHeight-10)) {
-        return true;
-    }
-    return false;
 }
 
 function setBasicMovement(target, size) {
@@ -163,35 +148,6 @@ function checkEnemies() {
         checkGoal();
     }
 }
-
-function handleTick(event) {
-    if (!event.paused) {
-        checkEnemies();
-        abilityW.active = false;
-
-        if (levelState === 'paused' || levelTime < 0 ) {
-            clearInterval(levelTimeout);
-            init();
-        }
-        if (catchNumber >= levelGoal) {
-            clearInterval(levelTimeout);
-            createjs.Ticker.setPaused(true);
-            level ++;
-            init();
-        }
-    }
-
-    stage.update(event);
-}
-
-function randomBetween(min, max) {
-    if (min < 0) {
-        return min + Math.random() * (Math.abs(min)+max);
-    }else {
-        return min + Math.random() * max;
-    }
-}
-
 
 function setGoalPosition() {
     goal.x = Math.round(randomBetween(50, stage.canvas.width - goalSize * 5));
