@@ -70,8 +70,8 @@ function initGameState() {
     levelState = 'started';
     enemies = [];
     playerSize = Math.round(window.innerWidth*0.035);
-    goalSize = Math.round(window.innerWidth*0.025);;
-    enemySize = Math.round(window.innerWidth*0.035);;
+    goalSize = Math.round(window.innerWidth*0.025);
+    enemySize = Math.round(window.innerWidth*0.035);
     maxEnemySpeed = Math.round(window.innerWidth/200); + level/4;
     numberOfEnemies = 1 + level/2;
     catchNumber = 0;
@@ -102,40 +102,12 @@ function handleTick(event) {
     stage.update(event);
 }
 
-function setPlayerPosition(x, y) {
-    player.x = x;
-    player.y = y;
-}
-
-function setCatchNumber(value) {
-    catchText.text = value;
-}
-
-function setBasicMovement(target, size) {
-    if (target.x > stage.canvas.width - size || target.x < size || checkWallCollisionX(target, size)) {
-        target.unitX = -target.unitX;
-    }
-    if (target.y > stage.canvas.height - size || target.y < size || checkWallCollisionY(target, size)) {
-        target.unitY = -target.unitY;
-    }
-    target.x += target.unitX;
-    target.y += target.unitY;
-}
-
 function checkGoal() {
     if (checkIntersection(goal, player)) {
         catchNumber += 1;
         setCatchNumber(catchNumber);
         setGoalPosition();
     }
-}
-
-function setEnemyMovement(enemy) {
-    checkAbilityQ(enemy);
-    checkAbilityW(enemy);
-    checkAbilityE(enemy);
-    checkAbilityR(enemy);
-    setBasicMovement(enemy, enemySize);
 }
 
 function checkEnemies() {
@@ -147,9 +119,4 @@ function checkEnemies() {
         setEnemyMovement(enemies[index]);
         checkGoal();
     }
-}
-
-function setGoalPosition() {
-    goal.x = Math.round(randomBetween(50, stage.canvas.width - goalSize * 5));
-    goal.y = Math.round(randomBetween(50, stage.canvas.height - goalSize * 5));
 }
