@@ -28,8 +28,16 @@ function setEnemyMovement(enemy) {
 }
 
 function setGoalPosition() {
-    goal.x = Math.round(randomBetween(50, stage.canvas.width - goalSize * 5));
-    goal.y = Math.round(randomBetween(50, stage.canvas.height - goalSize * 5));
+    var distanceX = (stage.canvas.width / 2) * 0.9;
+    var distanceY = (stage.canvas.height / 2) * 0.9;
+    var x = randomBetween(-distanceX, distanceX);
+    var y = randomBetween(-distanceY, distanceY);
+    goal.x = (stage.canvas.width / 2) - Math.round(x);
+    if (goal.x < 80 ) {
+        goal.x = 80;
+    }
+    goal.y = (stage.canvas.height / 2) - Math.round(y);
+    console.log(x, y, goal.x, goal.y, stage.canvas.width - playerSize, stage.canvas.height - playerSize)
 }
 
 function checkGoal() {
