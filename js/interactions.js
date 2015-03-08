@@ -2,17 +2,10 @@
 function keyPressed(event) {
     switch(event.keyCode) {
         case 81:
-            abilityQ.active = true;
-            setTimeout(function removeAbility() {
-                abilityQ.active = false;
-            }, abilityQ.effectTime);
+            executeAbilityQ();
             break;
         case 87:
-            abilityW.active = true;
-            setTimeout(function removeAbility() {
-                abilityW.active = false;
-                resetAbilityW(enemies);
-            }, abilityW.effectTime);
+            executeAbilityE();
             break;
         case 69:
             abilityE.active = true;
@@ -29,4 +22,19 @@ function keyPressed(event) {
             break;
     }
     stage.update();
+}
+
+function executeAbilityQ() {
+    abilityQ.active = true;
+    setTimeout(function removeAbility() {
+        abilityQ.active = false;
+    }, abilityQ.effectTime);
+}
+
+function executeAbilityE() {
+    abilityW.active = true;
+    setTimeout(function removeAbility() {
+        abilityW.active = false;
+        resetAbilityW(enemies);
+    }, abilityW.effectTime);
 }

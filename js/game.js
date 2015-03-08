@@ -30,6 +30,7 @@ window.onresize = function() {
 
 function init() {
     stage = new createjs.Stage("game");
+    createjs.Touch.enable(stage);
     stage.canvas.width = window.innerWidth;
     stage.canvas.height = window.innerHeight;
 
@@ -40,6 +41,9 @@ function init() {
     createGoal();
     createPlayer();
     createEnemies();
+
+    abilityQ.init(executeAbilityQ, 50);
+    abilityE.init(executeAbilityE, 100);
 
     this.document.onkeydown = keyPressed;
 

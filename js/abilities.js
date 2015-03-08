@@ -3,6 +3,14 @@ var Ability = function Ability (effectTime, cooldown) {
     this.active = false;
     this.effectTime = effectTime;
     this.cooldown = cooldown;
+
+    this.init = function (callback, height) {
+        var ability = new createjs.Shape();
+        ability.graphics.beginFill("#afec26").drawCircle(25, height, 20);
+        ability.on("click", function() { callback() });
+        stage.addChild(ability);
+    }
+
 };
 
 function checkAbilityQ(enemy) {
