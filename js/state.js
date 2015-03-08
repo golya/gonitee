@@ -37,7 +37,6 @@ function setGoalPosition() {
         goal.x = 80;
     }
     goal.y = (stage.canvas.height / 2) - Math.round(y);
-    console.log(x, y, goal.x, goal.y, stage.canvas.width - playerSize, stage.canvas.height - playerSize)
 }
 
 function checkGoal() {
