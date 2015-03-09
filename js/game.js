@@ -59,7 +59,7 @@ function initScreen() {
         clearInterval(levelTimeout);
     }
 
-    levelTime = Math.floor(8 + Math.pow(level, 2) / 100);
+    levelTime = Math.floor(9 + Math.pow(level, 2) / 100);
     timerText.text = levelTime.toString();
     levelText.text = level.toString();
 
@@ -76,7 +76,7 @@ function initGameState() {
     playerSize = Math.round(window.innerWidth*0.035);
     goalSize = Math.round(window.innerWidth*0.025);
     enemySize = Math.round(window.innerWidth*0.035);
-    maxEnemySpeed = Math.round(window.innerWidth/200); + level/4;
+    maxEnemySpeed = Math.round(window.innerWidth/200) + level/2;
     numberOfEnemies = 1 + level/2;
     catchNumber = 0;
 
