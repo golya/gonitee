@@ -43,7 +43,7 @@ function init() {
     createEnemies();
 
     abilityQ.init(executeAbilityQ, 50);
-    abilityE.init(executeAbilityE, 100);
+    abilityW.init(executeAbilityW, 100);
 
     this.document.onkeydown = keyPressed;
 

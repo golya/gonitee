@@ -5,7 +5,7 @@ function keyPressed(event) {
             executeAbilityQ();
             break;
         case 87:
-            executeAbilityE();
+            executeAbilityW();
             break;
         case 69:
             abilityE.active = true;
@@ -31,7 +31,7 @@ function executeAbilityQ() {
     }, abilityQ.effectTime);
 }
 
-function executeAbilityE() {
+function executeAbilityW() {
     abilityW.active = true;
     setTimeout(function removeAbility() {
         abilityW.active = false;
