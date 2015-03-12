@@ -8,11 +8,7 @@ function keyPressed(event) {
             executeAbilityW();
             break;
         case 69:
-            abilityE.active = true;
-            setTimeout(function removeAbility() {
-                abilityE.active = false;
-                resetAbilityW(enemies);
-            }, abilityE.effectTime);
+            executeAbilityE();
             break;
         case 82:
             abilityR.active = true;
@@ -37,4 +33,12 @@ function executeAbilityW() {
         abilityW.active = false;
         resetAbilityW(enemies);
     }, abilityW.effectTime);
+}
+
+function executeAbilityE() {
+    abilityE.active = true;
+    setTimeout(function removeAbility() {
+        abilityE.active = false;
+        resetAbilityW(enemies);
+    }, abilityE.effectTime);
 }

@@ -18,7 +18,7 @@ var levelGoal = 10;
 
 var abilityQ = new Ability('Q', 5000, 8000);
 var abilityW = new Ability('W', 3000, 5000);
-var abilityE = new Ability(2000, 15000);
+var abilityE = new Ability('E', 2000, 15000);
 var abilityR = new Ability(2000, 95000);
 
 window.onresize = function() {
@@ -44,6 +44,7 @@ function init() {
 
     abilityQ.init(executeAbilityQ, 50);
     abilityW.init(executeAbilityW, 100);
+    abilityE.init(executeAbilityE, 150);
 
     this.document.onkeydown = keyPressed;
 
