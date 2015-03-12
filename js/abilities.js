@@ -1,14 +1,22 @@
 
-var Ability = function Ability (effectTime, cooldown) {
+var Ability = function Ability (ability, effectTime, cooldown) {
     this.active = false;
     this.effectTime = effectTime;
-    this.cooldown = cooldown;
+    this.ability = ability;
 
     this.init = function (callback, height) {
         var ability = new createjs.Shape();
         ability.graphics.beginFill("#afec26").drawCircle(25, height, 20);
         ability.on("click", function() { callback() });
+
+
+        var text = new createjs.Text(this.ability, "25px Arial", "#ffffff");
+        text.x = 14;
+        text.y = height+9;
+        text.textBaseline = "alphabetic";
+
         stage.addChild(ability);
+        stage.addChild(text);
     }
 
 };
