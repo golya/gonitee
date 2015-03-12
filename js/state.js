@@ -33,8 +33,8 @@ function setGoalPosition() {
     var x = randomBetween(-distanceX, distanceX);
     var y = randomBetween(-distanceY, distanceY);
     goal.x = (stage.canvas.width / 2) - Math.round(x);
-    if (goal.x < 80 ) {
-        goal.x = 80;
+    if (goal.x < sidebar + 30 ) {
+        goal.x = sidebar + 30;
     }
     goal.y = (stage.canvas.height / 2) - Math.round(y);
 }

@@ -10,6 +10,8 @@ var catchText;
 var timerText;
 var levelText;
 
+var sidebar = 50;
+
 var levelState;
 var levelTimeout;
 var levelTime;

@@ -13,9 +13,9 @@ function createMap() {
     leftWall = new createjs.Shape();
     bottomWall = new createjs.Shape();
     rightWall = new createjs.Shape();
-    topWall.graphics.beginFill("#000000").drawRect(50, 0, window.innerWidth, 10);
-    leftWall.graphics.beginFill("#000000").drawRect(50, 0, 10, window.innerHeight);
-    bottomWall.graphics.beginFill("#000000").drawRect(50, window.innerHeight-10, window.innerWidth, 10);
+    topWall.graphics.beginFill("#000000").drawRect(sidebar, 0, window.innerWidth, 10);
+    leftWall.graphics.beginFill("#000000").drawRect(sidebar, 0, 10, window.innerHeight);
+    bottomWall.graphics.beginFill("#000000").drawRect(sidebar, window.innerHeight-10, window.innerWidth, 10);
     rightWall.graphics.beginFill("#000000").drawRect(window.innerWidth-10, 0, 10, window.innerHeight);
 
     stage.addChild(topWall);

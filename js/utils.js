@@ -29,7 +29,7 @@ function checkIntersectionWithSize(ball1, ball2, size) {
 }
 
 function checkWallCollisionX(target, size) {
-    return !!((target.x - size <= 60) || (target.x + size >= window.innerWidth - 10));
+    return !!((target.x - size <= sidebar + 10) || (target.x + size >= window.innerWidth - 10));
 }
 
 function checkWallCollisionY(target, size) {
