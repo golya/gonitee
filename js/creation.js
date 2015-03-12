@@ -38,7 +38,9 @@ function createPlayer() {
     stage.addChild(player);
 
     stage.on("stagemouseup", function (evt) {
-        setPlayerPosition(evt.stageX, evt.stageY);
+        if (evt.stageX > sidebar) {
+            setPlayerPosition(evt.stageX, evt.stageY);
+        }
     });
 }
 
