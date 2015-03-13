@@ -23,7 +23,6 @@ function setEnemyMovement(enemy) {
     checkAbilityQ(enemy);
     checkAbilityW(enemy);
     checkAbilityE(enemy);
-    checkAbilityR(enemy);
     setBasicMovement(enemy, enemySize);
 }
 
@@ -49,7 +48,7 @@ function checkGoal() {
 
 function checkEnemies() {
     for (var index in enemies) {
-        if (checkIntersection(enemies[index], player)) {
+        if (checkIntersection(enemies[index], player) && !abilityR.active) {
             createjs.Ticker.setPaused(true);
             levelState = 'paused';
         }

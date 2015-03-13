@@ -11,10 +11,7 @@ function keyPressed(event) {
             executeAbilityE();
             break;
         case 82:
-            abilityR.active = true;
-            setTimeout(function removeAbility() {
-                abilityR.active = false;
-            }, abilityR.effectTime);
+            executeAbilityR();
             break;
     }
     stage.update();
@@ -41,4 +38,11 @@ function executeAbilityE() {
         abilityE.active = false;
         resetAbilityW(enemies);
     }, abilityE.effectTime);
+}
+
+function executeAbilityR() {
+    abilityR.active = true;
+    setTimeout(function removeAbility() {
+        abilityR.active = false;
+    }, abilityR.effectTime);
 }
