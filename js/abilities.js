@@ -23,6 +23,7 @@ var Ability = function Ability (ability, effectTime, cooldown) {
 
 function checkAbilityQ(enemy) {
     if (abilityQ.active) {
+        stage.addChildAt(playerAura, 0);
         if (checkIntersectionWithSize(enemy, player, playerSize * 3)) {
             enemy.unitX = -enemy.unitX;
             enemy.unitY = -enemy.unitY;

@@ -20,6 +20,7 @@ function keyPressed(event) {
 function executeAbilityQ() {
     abilityQ.active = true;
     setTimeout(function removeAbility() {
+        stage.removeChild(playerAura);
         abilityQ.active = false;
     }, abilityQ.effectTime);
 }

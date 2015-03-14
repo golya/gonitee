@@ -1,4 +1,4 @@
-var stage, player, goal;
+var stage, player, playerAura, goal;
 var enemies;
 var playerSize;
 var goalSize;

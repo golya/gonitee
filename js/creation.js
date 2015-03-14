@@ -33,6 +33,9 @@ function createLevelText() {
 }
 
 function createPlayer() {
+    playerAura = new createjs.Shape();
+    playerAura.graphics.beginFill("#d2ffcc").drawCircle(0, 0, playerSize * 3);
+
     player = new createjs.Shape();
     player.graphics.beginFill("#000").drawCircle(0, 0, playerSize);
     stage.addChild(player);

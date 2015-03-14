@@ -2,6 +2,8 @@
 function setPlayerPosition(x, y) {
     player.x = x;
     player.y = y;
+    playerAura.x = x;
+    playerAura.y = y;
 }
 
 function setCatchNumber(value) {
