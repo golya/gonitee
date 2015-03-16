@@ -9,7 +9,7 @@ function createEnemies() {
 }
 
 function createCatchText() {
-    catchText = new createjs.Text("0", "50px Arial", "#000C26");
+    catchText = new createjs.Text("0", "50px Courier", "#000C26");
     catchText.x = sidebar + 20;
     catchText.y = 100;
     catchText.textBaseline = "alphabetic";
@@ -17,7 +17,7 @@ function createCatchText() {
 }
 
 function createTimerText() {
-    timerText = new createjs.Text("", "50px Arial", "#AFEC26");
+    timerText = new createjs.Text("", "50px Courier", "#AFEC26");
     timerText.x = sidebar + 100;
     timerText.y = 100;
     timerText.textBaseline = "alphabetic";
@@ -25,7 +25,7 @@ function createTimerText() {
 }
 
 function createLevelText() {
-    levelText = new createjs.Text("", "50px Arial", "#AFE000");
+    levelText = new createjs.Text("", "50px Courier", "#AFE000");
     levelText.x = sidebar + 20;
     levelText.y = 200;
     levelText.textBaseline = "alphabetic";

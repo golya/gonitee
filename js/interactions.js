@@ -18,32 +18,26 @@ function keyPressed(event) {
 }
 
 function executeAbilityQ() {
-    abilityQ.active = true;
-    setTimeout(function removeAbility() {
+    var removeAbility = function removeAbility() {
         stage.removeChild(playerAura);
-        abilityQ.active = false;
-    }, abilityQ.effectTime);
+    };
+    abilityQ.executeAbility(removeAbility);
 }
 
 function executeAbilityW() {
-    abilityW.active = true;
-    setTimeout(function removeAbility() {
-        abilityW.active = false;
+    var removeAbility = function removeAbility() {
         resetAbilityW(enemies);
-    }, abilityW.effectTime);
+    };
+    abilityW.executeAbility(removeAbility);
 }
 
 function executeAbilityE() {
-    abilityE.active = true;
-    setTimeout(function removeAbility() {
-        abilityE.active = false;
+    var removeAbility = function removeAbility() {
         resetAbilityW(enemies);
-    }, abilityE.effectTime);
+    };
+    abilityE.executeAbility(removeAbility);
 }
 
 function executeAbilityR() {
-    abilityR.active = true;
-    setTimeout(function removeAbility() {
-        abilityR.active = false;
-    }, abilityR.effectTime);
+    abilityR.executeAbility(function(){});
 }

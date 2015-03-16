@@ -1,23 +1,79 @@
 
 var Ability = function Ability (ability, effectTime, cooldown) {
-    this.active = false;
-    this.effectTime = effectTime;
-    this.ability = ability;
+    var cooldownTimeout, removeAbilityTimeout, cooldownTextInterval;
 
     this.init = function (callback, height) {
-        var ability = new createjs.Shape();
-        ability.graphics.beginFill("#afec26").drawCircle(25, height, 20);
-        ability.on("click", function() { callback() });
+        this.resetTimeouts();
+        this.active = false;
+        this.effectTime = effectTime;
+        this.ability = ability;
+        this.cooldown = cooldown;
+        this.cooldownExpired = true;
+
+        this.abilityButton = new createjs.Shape();
+        this.abilityButtonFillCommand = this.abilityButton.graphics.beginFill("#afec26").command;
+        this.abilityButton.graphics.drawCircle(25, height, 20);
+        this.abilityButton.on("click", function() { callback() });
 
 
-        var text = new createjs.Text(this.ability, "25px Arial", "#ffffff");
-        text.x = 14;
-        text.y = height+9;
-        text.textBaseline = "alphabetic";
+        this.abilityButtonText = new createjs.Text(this.ability, "20px Courier", "#ffffff");
+        this.abilityButtonText.x = 18;
+        this.abilityButtonText.y = height+6;
+        this.abilityButtonText.textBaseline = "alphabetic";
 
-        stage.addChild(ability);
-        stage.addChild(text);
-    }
+        stage.addChild(this.abilityButton);
+        stage.addChild(this.abilityButtonText);
+    };
+
+    this.resetTimeouts = function (){
+        if (cooldownTimeout) {
+            clearTimeout(cooldownTimeout);
+        }
+
+        if (removeAbilityTimeout) {
+            clearTimeout(removeAbilityTimeout);
+        }
+
+        if (cooldownTextInterval) {
+            clearInterval(cooldownTextInterval);
+        }
+    };
+
+    this.setCooldown = function () {
+        var that = this;
+        this.cooldownExpired = false;
+        this.abilityButtonFillCommand.style = "#c3c3c3";
+        cooldownTimeout = setTimeout(function cooldown() {
+            that.abilityButtonFillCommand.style = "#afec26";
+            that.cooldownExpired = true;
+            that.abilityButtonText.text = that.ability;
+            clearInterval(cooldownTextInterval);
+        }, this.cooldown);
+        var cooldown = this.cooldown / 1000;
+        cooldownTextInterval = setInterval(function () {
+            cooldown--;
+            if (cooldown > 9 ) {
+                that.abilityButtonText.x = 13;
+            } else {
+                that.abilityButtonText.x = 19;
+            }
+            that.abilityButtonText.text = cooldown;
+        }, 1000)
+    };
+
+    this.executeAbility = function (remove) {
+        var that = this;
+        if (!this.cooldownExpired) {
+            return;
+        }
+        this.setCooldown();
+        this.active = true;
+        var removeAbility = function removeAbility() {
+            remove();
+            that.active = false;
+        };
+        removeAbilityTimeout = setTimeout(removeAbility, this.effectTime);
+    };
 
 };
 

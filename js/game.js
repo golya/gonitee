@@ -21,7 +21,7 @@ var levelGoal = 10;
 var abilityQ = new Ability('Q', 5000, 8000);
 var abilityW = new Ability('W', 3000, 5000);
 var abilityE = new Ability('E', 2000, 15000);
-var abilityR = new Ability('R', 2000, 95000);
+var abilityR = new Ability('R', 3000, 55000);
 
 window.onresize = function() {
     var canvas = document.getElementById("game");
@@ -31,6 +31,10 @@ window.onresize = function() {
 };
 
 function init() {
+    if (stage) {
+        stage.removeAllChildren();
+        stage.update();
+    }
     stage = new createjs.Stage("game");
     createjs.Touch.enable(stage);
     stage.canvas.width = window.innerWidth;
