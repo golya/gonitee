@@ -11,7 +11,7 @@ function createEnemies() {
 function createCatchText() {
     catchText = new createjs.Text("0", "50px Courier", "#000C26");
     catchText.x = sidebar + 20;
-    catchText.y = 100;
+    catchText.y = 65;
     catchText.textBaseline = "alphabetic";
     stage.addChild(catchText);
 }
@@ -19,7 +19,7 @@ function createCatchText() {
 function createTimerText() {
     timerText = new createjs.Text("", "50px Courier", "#AFEC26");
     timerText.x = sidebar + 100;
-    timerText.y = 100;
+    timerText.y = 65;
     timerText.textBaseline = "alphabetic";
     stage.addChild(timerText);
 }
@@ -27,7 +27,7 @@ function createTimerText() {
 function createLevelText() {
     levelText = new createjs.Text("", "50px Courier", "#AFE000");
     levelText.x = sidebar + 20;
-    levelText.y = 200;
+    levelText.y = 165;
     levelText.textBaseline = "alphabetic";
     stage.addChild(levelText);
 }
